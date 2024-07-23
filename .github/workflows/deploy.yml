@@ -4,10 +4,25 @@ on:
     branches:
       - main
       - dev
+# Envirionment variables that are common to all jobs in the workflows can be define here
+env:
+  # Let's assume that the MongoDB name is common to all jobs
+  # For example testing database and production database have the same name (but different databases)
+  MONGODB_DB_NAME:
 jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
+    # Environment variables that are specific to this job can be defined here
+    # These values are used to connect to the testing database
+    env:
+      # The following environment variables changes from job to job because the database changes
+      MONGODB_CLUSTER_ADDRESS: github-actions.tqlk24f.mongodb.net
+      MONGODB_USERNAME: januda
+      MONGODB_PASSWORD: 5KKHpFgNFQqAFosZ
+      # We also need to set the port environment varaibale (used in app.js and playwright.config.js)
+      PORT: 8080
+
     steps:
       - name: Get Code
         uses: actions/checkout@v3
@@ -19,15 +34,25 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run server
-        run: npm start & npx wait-on http://127.0.0.1:XYZ
+        # npx wait-on http://127.0.0.1:PORT ensures that the server keeps running after execution of this step
+        # So, here we need to use the environment variable that we defiened on the top.
+        # We can simply add a $ infront of the environment variable when we are going to use it within the workflow.
+        # This ways depends on the shell and the OS we are running our job. The following is way when we use ubuntu-latest
+        run: npm start & npx wait-on http://127.0.0.1:$PORT
       - name: Run tests
         run: npm test
       - name: Output information
-        run: echo "..."
+        #
+        run: |
+          echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+      # We can output a environment variable by simply adding a $ infront of it.
   deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Output information
-        run: |        
-          echo "..."
+        # Note that MONGODB_USERNAME is not defined here. Because it was a job specific (test) env variable.
+        run: |
+          echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+          echo "MONGODB_USERNAME: ${{env.MONGODB_DB_NAME}}"
+        # Another way is to use the env object with expressions to access the values of the environment variable
