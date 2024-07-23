@@ -45,15 +45,14 @@ jobs:
         #
         run: |
           echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
-        # We can use env context object with expressions to access the values of the environment variable
+      # We can use env context object with expressions to access the values of the environment variable
   deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Output information
         # We can al output a environment variable by simply adding a $ infront of it.
-        # Note that MONGODB_USERNAME is not defined here. Because it was a job specific (test) env variable.
         run: |
-          echo "MONGODB_USERNAME: $MONGODB_USERNAME"
           echo "MONGODB_DB_NAME: $MONGO_DB_NAME"
-        # Another way is to use the env object with expressions to access the values of the environment variable
+          echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+      # Note that MONGODB_USERNAME is not defined here. Because it was a job specific (test) env variable.
