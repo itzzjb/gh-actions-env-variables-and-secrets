@@ -53,6 +53,6 @@ jobs:
       - name: Output information
         # We can al output a environment variable by simply adding a $ infront of it.
         run: |
-          echo "MONGODB_DB_NAME: $MONGO_DB_NAME"
+          echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
       # Note that MONGODB_USERNAME is not defined here. Because it was a job specific (test) env variable.
