@@ -8,7 +8,7 @@ on:
 env:
   # Let's assume that the MongoDB name is common to all jobs
   # For example testing database and production database have the same name (but different databases)
-  MONGODB_DB_NAME:
+  MONGODB_DB_NAME: Github-Actions
 jobs:
   test:
     environment: testing
