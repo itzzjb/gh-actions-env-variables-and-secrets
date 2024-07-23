@@ -54,5 +54,5 @@ jobs:
         # Note that MONGODB_USERNAME is not defined here. Because it was a job specific (test) env variable.
         run: |
           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
-          echo "MONGODB_USERNAME: ${{env.MONGODB_DB_NAME}}"
+          echo "MONGODB_DB_NAME: ${{ env.MONGODB_DB_NAME }}"
         # Another way is to use the env object with expressions to access the values of the environment variable
