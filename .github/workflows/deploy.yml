@@ -18,8 +18,11 @@ jobs:
     env:
       # The following environment variables changes from job to job because the database changes
       MONGODB_CLUSTER_ADDRESS: github-actions.tqlk24f.mongodb.net
-      MONGODB_USERNAME: januda
-      MONGODB_PASSWORD: 5KKHpFgNFQqAFosZ
+      # After storing the username and password in the secrets, we can access them using the ${{ secrets.SECRET_NAME }} syntax
+      # Just live env context object to acess the values of environment variables, ...
+      # ... we can use secrets context object to access the values of the secrets
+      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       # We also need to set the port environment varaibale (used in app.js and playwright.config.js)
       PORT: 8080
 
@@ -46,6 +49,7 @@ jobs:
         run: |
           echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
       # We can use env context object with expressions to access the values of the environment variable
+      # Note that because MONGODB_USERNAME is a secret the value is not printed here.
   deploy:
     needs: test
     runs-on: ubuntu-latest
