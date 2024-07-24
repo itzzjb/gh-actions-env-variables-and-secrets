@@ -5,6 +5,7 @@ on:
       - main
       # Even if we have added dev here, because we have added a branch protection rule for testing environment ...
       # ... only the main branch is allowed to deploy to the testing environment.
+      # Even if the workflow started, it will fail because the test job will fail.
       - dev
 # Envirionment variables that are common to all jobs in the workflows can be define here
 env:
