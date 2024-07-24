@@ -49,7 +49,7 @@ jobs:
         run: |
           echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
       # We can use env context object with expressions to access the values of the environment variable
-      # Note that because MONGODB_USERNAME is a secret the value is not printed here.
+      # Note that because MONGODB_USERNAME is a secret the value will be printed as ***
   deploy:
     needs: test
     runs-on: ubuntu-latest
