@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+      # Even if we have added dev here, because we have added a branch protection rule for testing environment ...
+      # ... only the main branch is allowed to deploy to the testing environment.
       - dev
 # Envirionment variables that are common to all jobs in the workflows can be define here
 env:
@@ -11,6 +13,9 @@ env:
   MONGODB_DB_NAME: Github-Actions
 jobs:
   test:
+    # environment is set to testing
+    # The secrets in the testing environment are now accessible here
+    # It will override the repository secrets
     environment: testing
     runs-on: ubuntu-latest
     # Environment variables that are specific to this job can be defined here
